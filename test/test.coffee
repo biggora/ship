@@ -84,7 +84,13 @@ describe 'deployers', ->
 
   it 'dropbox deployer'
   it 'ftp deployer'
+  
   it 'github pages deployer'
+    test_path = path.join(test_dir, 'deployers/gh-pages')
+    new cmd.default([test_path]).run (err, res) =>
+      should.not.exist(err)
+      done()
+
   it 'nodejitsu deployer'
   it 'vps deployer'
 

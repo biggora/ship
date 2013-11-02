@@ -12,13 +12,16 @@ class Github extends Deployer
   constructor: (@path) ->
     super
     @name = 'Github Pages'
-    @config =
-      target: null
+    @slug = 'gh-pages'
 
     @errors = 
       not_installed: 'You must install git - see http://git-scm.com'
       remote_origin: 'Make sure you have a remote origin branch for github'
-      make_commit: 'You need to make a commit before deploying'
+      make_commit: 'You need to commit your changes before deploying'
+
+  configure: (data, cb) ->
+    super(@slug, data)
+    cb()
 
   deploy: (cb) ->
     check_install_status.call(@)
