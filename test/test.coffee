@@ -87,6 +87,12 @@ describe 'deployers', ->
   it 'github pages deployer'
   it 'nodejitsu deployer'
   it 'vps deployer'
+  
+  it 'siteleaf deployer', (done) ->
+    test_path = path.join(test_dir, 'deployers/siteleaf')
+    new cmd.default([test_path]).run (err, res) =>
+      should.not.exist(err) # why in the F is this erroring out?
+      done()
 
   # also need to test each error state
   it 'heroku deployer', (done) ->
@@ -110,3 +116,4 @@ describe 'deployers', ->
         body.should.match /look ma, it worked/
         # remove the testing bucket and finish
         res.deployers[0].destroy(done)
+
