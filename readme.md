@@ -18,6 +18,7 @@ Ship is small library that deploys files smoothly to the platforms listed below:
 - [FTP](lib/deployers/ftp)
 - [Dropbox](lib/deployers/dropbox)
 - [Linux VPS](lib/deployers/vps)
+- [Siteleaf](lib/deployers/siteleaf)
 
 Ship is also built on the adapter pattern, so if there's another platforms you'd like to deploy to, the project structure is easy to understand, and you can write a deployer, send a pull request, and we'd be happy to include it.
 
@@ -50,6 +51,7 @@ Available deployers are as such:
 - FTP - `ftp`
 - Dropbox - `dropbox`
 - Linux VPS - `vps`
+- Linux VPS - `siteleaf`
 
 ### ship.conf
 
