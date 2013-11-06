@@ -63,7 +63,7 @@ class Siteleaf extends Deployer
     
     return deferred.promise
 
-  select_site = (sites) =>
+  select_site = (sites) ->
     deferred = W.defer()
     prompt.start()
     for opt in JSON.parse(sites)
@@ -73,16 +73,16 @@ class Siteleaf extends Deployer
         validator: /y[es]*|n[o]?/
         default: 'no'
 
-      prompt.get property, (err, result) =>
+      prompt.get property, (err, result) ->
         if err then return deferred.reject(err)
         test = new RegExp("y[es]?").test(result.yesno)
-        if test 
-          deferred.resolve(opt.id)
+        deferred.resolve(opt.id) if test 
+          
 
     return deferred.promise
 
   update_shipfile = (site_id) ->
-    @debug.log "updating shipfile with access token..."
+    @debug.log "updating shipfile with site_id..."
     @config.site_id = site_id
     
     conf = {}
