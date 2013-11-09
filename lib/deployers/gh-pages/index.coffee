@@ -36,7 +36,7 @@ class Github extends Deployer
     deferred = W.defer()
 
     if not which('git')
-      return deferred.reject(@error.not_installed)
+      return deferred.reject(@errors.not_installed)
 
     if not execute('git remote | grep origin')
       return deferred.reject(@errors.remote_origin)
@@ -44,17 +44,17 @@ class Github extends Deployer
     @original_branch = execute('git rev-parse --abbrev-ref HEAD') 
     if not @original_branch then return deferred.reject(@errors.make_commit)
 
-    @debug.log "starting on branch #{original_branch}"
+    @debug.log "starting on branch \"#{@original_branch}\"..."
     deferred.resolve()
 
   move_to_gh_pages_branch = ->
-    @debug.log 'switching to gh-pages branch'
+    @debug.log 'switching to gh-pages branch...'
 
-    if not execute('git branch | grep gh-pages')
+    # if gh-pages branch exists, delete it
+    if execute('git branch | grep gh-pages')
       execute('git branch -D gh-pages')
 
-    execute('git branch gh-pages')
-    execute('git checkout gh-pages')
+    execute('git checkout --orphan gh-pages')
     fn.call()
 
   remove_source_files = ->
