@@ -86,6 +86,8 @@ describe 'deployers', ->
   it 'ftp deployer'
   
   it 'github pages deployer'
+    # TODO: test a ship of a public folder with erroneous file
+    # TODO: test a ship of whole project
     test_path = path.join(test_dir, 'deployers/gh-pages')
     new cmd.default([test_path]).run (err, res) =>
       should.not.exist(err)
