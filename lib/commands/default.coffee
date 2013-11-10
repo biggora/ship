@@ -22,6 +22,8 @@ class DefaultCommand
     @path = @args.path
     @config = @args.config
     @deployer = @args.deployer
+    @cargo = @args.cargo
+    @folder = @args.folder
 
   run: (cb) ->
     if @args instanceof Error then return cb(@args.toString())

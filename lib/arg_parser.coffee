@@ -9,6 +9,8 @@ class ArgsParser
     args ?= []
 
     @path = process.cwd()
+    @cargo = path.join(@path)
+    @folder = null
 
     @errors =
       missing_deployer: "Make sure to specify a deployer!"
@@ -21,27 +23,32 @@ class ArgsParser
       config = find_conf_file(env)
 
       if not config then return new Error(@errors.missing_deployer)
-      return { path: @path, config: config, deployer: false }
+      return { path: @path, cargo: @cargo, config: config, folder: @folder, deployer: false }
 
     if args.length == 1
+      @folder = args[0]
+      @cargo = path.join(@cargo, @folder)
 
       # if the arg passed is a deployer, assume path is cwd
-      if is_deployer(args[0]) then return { path: @path, config: find_conf_file(@path, env), deployer: args[0] }
+      if is_deployer(@folder) then return { path: @path, cargo: @cargo, folder: @folder, config: find_conf_file(env), deployer: @folder }
 
       # if the arg passed is not a deployer, assume it's a path
-      if not path_exists(args[0]) then return new Error(@errors.path_nonexistant)
+      if not path_exists(@folder) then return new Error(@errors.path_nonexistant)
       config = find_conf_file(env)
 
       if not config then return new Error(@errors.missing_deployer)
-      return { path: args[0], config: config, deployer: false }
+      return { path: @path, cargo: @cargo, config: config, folder: @folder, deployer: false }
 
     if args.length > 1
+      @folder = args[0]
+      @cargo = path.join(@cargo, @folder)
 
       # two args, both path and deployer must exist
-      if not path_exists(args[0]) then return new Error(@errors.path_nonexistant)
+      if not path_exists(@folder) then return new Error(@errors.path_nonexistant)
       if not is_deployer(args[1]) then return new Error(@errors.deployer_not_found)
-      return { path: args[0], config: find_conf_file(env), deployer: args[1] }
+      return { path: @path, cargo: @cargo, config: find_conf_file(env), folder: @folder, deployer: args[1] }
 
+    
   # 
   # @api private
   # 
