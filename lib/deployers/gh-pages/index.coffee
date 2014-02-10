@@ -13,6 +13,7 @@ class Github extends Deployer
     @name = 'Github Pages'
     @config =
       target: null
+      # branch: 
 
     @errors = 
       not_installed: 'You must install git - see http://git-scm.com'
@@ -44,13 +45,14 @@ class Github extends Deployer
     deferred.resolve()
 
   move_to_gh_pages_branch = ->
-    @debug.log 'switching to gh-pages branch'
+    @config.branch ||= 'gh-pages'
+    @debug.log "switching to '#{@config.branch}' branch"
 
-    if not execute('git branch | grep gh-pages')
-      execute('git branch -D gh-pages')
+    if not execute('git branch | grep ' + @config.branch)
+      execute('git branch -D ' + @config.branch)
 
-    execute('git branch gh-pages')
-    execute('git checkout gh-pages')
+    execute('git branch ' + @config.branch)
+    execute('git checkout ' + @config.branch)
     fn.call()
 
   remove_source_files = ->
@@ -74,8 +76,8 @@ class Github extends Deployer
     fn.call()
 
   push_code = ->
-    @debug.log 'pushing to origin/gh-pages'
-    execute "git push origin gh-pages --force"
+    @debug.log "pushing to origin/#{@config.branch}"
+    execute "git push origin #{@config.branch} --force"
 
     @debug.log "switching back to #{@original_branch} branch"
     execute "git checkout #{@original_branch}"

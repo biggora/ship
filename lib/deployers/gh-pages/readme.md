@@ -6,3 +6,4 @@ In order to use this deployer, your project should be using git, and you should 
 ### Config Values
 
 **target**: the folder you want to deploy _(optional)_
+**branch**: the branch you want to deploy _(gh-pages by default)_
